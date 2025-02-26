@@ -31,5 +31,14 @@ public  class TimestampExample {
         return timestamp2am;
     }
 
+    public static int getHourDiff(long startTimeStamp,long endTimeStamp){
+        // 计算时间差（毫秒）
+        long diffInMillis = endTimeStamp - startTimeStamp;
+
+        // 将毫秒转换为小时
+        long hours = diffInMillis / (1000 * 60 * 60);
+        return (int) hours;
+    }
+
 
 }

@@ -23,7 +23,8 @@ public class Leave {
     private String type;
     private Date startTime;
     private Date endTime;
-    private Integer days;
+    private Double days;
     private String subjectMatter;
     private Integer hours;
+    private String formCode;
 }

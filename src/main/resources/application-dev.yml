@@ -35,7 +35,7 @@ springdoc:
 #每刻 环境地址和密钥
 my:
   property:
-    url: https://ng-uat.maycur.com
+    url: https://dt.maycur.com
     appCode: AP4LJXVJN6HNQI
     appSecret: KwRKkScwOfosKEfiR9XMmTyKfKhF0KoK
     #外出

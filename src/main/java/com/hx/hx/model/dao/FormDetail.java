@@ -2,6 +2,8 @@ package com.hx.hx.model.dao;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class FormDetail {
     private String formSubTypeBizCode;
@@ -13,11 +15,11 @@ public class FormDetail {
     private String employeeId;
     private String fillEmployeeName;
     private String fillEmployeeId;
-//    private Timestamp amount;
+    private List<Object> amount;
     private long submittedAt;
     private String statusText;
     private String formType;
-//    private Timestamp paymentAmount;
+    private List<Object> paymentAmount;
     private String legalEntityBizCode;
     private String legalEntityName;
     private String departmentBizCode;
