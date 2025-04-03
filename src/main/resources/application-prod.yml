@@ -1,0 +1,45 @@
+server:
+  port: 4399
+#  servlet:
+#    context-path: /myapp
+
+spring:
+  datasource:
+    url: jdbc:sqlserver://10.10.1.59:1433;database=HX_Master;encrypt=true;trustServerCertificate=true;
+    username: hxhr
+    password: hr9maiq5$fh8nh2F
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+  # 解决Spring Boot 3路径匹配策略
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+      # MyBatis configuration
+    #  mybatis. type-aliases-package=com.yourcompany.yourproject.model
+    # 启用Swagger访问swagger-ui.path=/swagger-ui.html
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  api-docs:
+    path: /v3/api-docs
+#  mybatis.mapper-locations=classpath:mapper/*.xml
+
+#每刻 环境地址和密钥
+my:
+  property:
+    url: https://dt.maycur.com
+    appCode: AP4LJXVJN6HNQI
+    appSecret: KwRKkScwOfosKEfiR9XMmTyKfKhF0KoK
+    #外出
+    goOut: FT2007211FF6XVK02
+    #出差
+    chuChai: FT200612261VEK5C
+    status: COMPLETED

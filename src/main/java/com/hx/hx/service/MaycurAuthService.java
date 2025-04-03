@@ -1,6 +1,6 @@
 package com.hx.hx.service;
 
-import com.alibaba.fastjson.JSON;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -19,13 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
+
 import org.springframework.web.client.RestTemplate;
 
-import java.time.Instant;
+
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
+
 
 @Slf4j
 @Service
@@ -51,19 +51,23 @@ public class MaycurAuthService {
 
     private String entCode;
 
+    private String token;
+
     private final RestTemplate restTemplate = new RestTemplate();
 
-    // 接口频率控制[4]()
-    private final RateLimiter rateLimiter = RateLimiter.create(10);
 
-    long timestamp= System.currentTimeMillis();
+
+    long timestamp;
 
     public String getSecret(){
+        timestamp=System.currentTimeMillis();
+
         return DigestUtils.sha256Hex(appSecret + ":" + appCode + ":" + timestamp);
     }
     // 获取访问令牌
     public String getAccessToken() {
         String signature = getSecret();
+        log.debug("生成的签名"+signature);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         JSONObject params = new JSONObject();
@@ -71,19 +75,22 @@ public class MaycurAuthService {
         params.put("secret",  signature);
         params.put("timestamp",  timestamp);
         String url=authUrl+"/api/openapi/auth/login";
+        log.debug("请求地址"+url);
         HttpEntity<String> request = new HttpEntity<>(params.toJSONString(),  headers);
         ResponseEntity<JSONObject> response = restTemplate.postForEntity(url,  request, JSONObject.class);
+        log.debug("获取的返回参数"+response);
         if(response.getBody().getJSONObject("data")==null){
-            log.debug("认证接口失败,参数"+params,response);
+            log.debug("认证接口失败,参数"+params);
         }
 
         entCode=response.getBody().getJSONObject("data").getString("entCode");
+        token=response.getBody().getJSONObject("data").getString("tokenId");
         return response.getBody().getJSONObject("data").getString("tokenId");
     }
 
 
     public ResponseEntity<JSONObject> getReimburseList(JSONObject  params) {
-        String token = getAccessToken();
+        token=getAccessToken();
         String reimburseUrl=authUrl+"/api/openapi/form/v2/preconsume";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -91,8 +98,9 @@ public class MaycurAuthService {
         httpHeaders.set("entCode",entCode);
         HttpEntity<String> request = new HttpEntity<>(params.toJSONString(),  httpHeaders);
         ResponseEntity<JSONObject> response = restTemplate.postForEntity(reimburseUrl,  request, JSONObject.class);
+        log.debug("获取申请单列表返回"+response.getBody().get("data").toString());
         if(response.getBody().get("data")==null){
-            log.debug("获取申请单列表接口失败，参数:"+params,response);
+            log.debug("获取申请单列表接口失败，参数:"+params);
         }
         return response;
 
@@ -100,13 +108,14 @@ public class MaycurAuthService {
     }
 
     public FormDetailDto getFormDetail(String formCode) {
-        String token = getAccessToken();
+        token=getAccessToken();
         HttpHeaders headers = new HttpHeaders();
         headers.set("tokenId",  token);
         headers.set("entCode",  entCode);
         String url =authUrl+ "/api/openapi/form/preconsume/"+formCode;
         ResponseEntity<JSONObject> response = restTemplate.exchange(
                 url, HttpMethod.GET, new HttpEntity<>(headers), JSONObject.class);
+        log.debug("获取申请单详情返回"+response);
         if(response.getBody().get("data")==null){
             log.debug("获取申请单详情接口失败，参数："+formCode,response);
         }
@@ -116,7 +125,7 @@ public class MaycurAuthService {
         try {
             user = mapper.readValue(jsonData.toString(), FormDetailDto.class);
         } catch (JsonProcessingException e) {
-            log.debug("数据转换失败",jsonData);
+            log.debug("数据转换失败"+jsonData);
             throw new RuntimeException(e);
         }
 
@@ -141,7 +150,7 @@ public class MaycurAuthService {
             leave.setDays(dto.getTravelDays());
             leave.setHours(TimestampExample.getHourDiff(timeDto.getStartTime(),timeDto.getEndTime()));
         }
-
+        leave.setStatus(formDetailDto.getFormStatus());
         leave.setName(formDetailDto.getFillEmployeeName());
         leave.setType(formDetailDto.getFormSubTypeBizCode().equals(goOut)?"1":"2");
         leave.setSubjectMatter(formDetailDto.getFormSubTypeName());

@@ -51,16 +51,18 @@ public class LeaveController {
 
 
     }
-
+    @Operation(summary = "查询报销单", description = "查询报销单")
+    @PostMapping("/reimbursementsa")
     public void getlist(){
         JSONObject params = new JSONObject();
         params.put("createdAtStart", TimestampExample.getStartTimeStamp());
         params.put("createdAtEnd",  TimestampExample.getEndTimeStamp());
         params.put("formSubTypeBizCode",  goOut);
-        List<FormDetail> list = maycurAuthService.getList(params);
-        for (FormDetail dto : list) {
-           // FormDetailDto formDetailDto = maycurAuthService.getFormDetail(dto.getFormCode());
-
-        }
+        FormDetailDto dto=maycurAuthService.getFormDetail("SQ2503194893");
+//        List<FormDetail> list = maycurAuthService.getList(params);
+//        for (FormDetail dto : list) {
+//           // FormDetailDto formDetailDto = maycurAuthService.getFormDetail(dto.getFormCode());
+//
+//        }
     }
 }

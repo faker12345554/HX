@@ -31,6 +31,15 @@ public  class TimestampExample {
         return timestamp2am;
     }
 
+    //获取昨天的时间戳
+    public static long getYesterday(){
+     return LocalDateTime.now()
+                .minusDays(1)
+                .atZone(ZoneId.systemDefault())
+                .toInstant()
+                .toEpochMilli();
+    }
+
     public static int getHourDiff(long startTimeStamp,long endTimeStamp){
         // 计算时间差（毫秒）
         long diffInMillis = endTimeStamp - startTimeStamp;

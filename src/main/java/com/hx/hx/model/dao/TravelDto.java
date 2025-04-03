@@ -16,4 +16,6 @@ public class TravelDto {
     private double travelDays;
     private Object travelPartnerInfo;
     private Object customObject;
+    private Integer travelTimeOffset;
+
 }

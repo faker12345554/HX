@@ -27,4 +27,5 @@ public class Leave {
     private String subjectMatter;
     private Integer hours;
     private String formCode;
+    private String status;
 }
