@@ -9,7 +9,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class HxApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(HxApplication.class, args);
+        
     }
 
 }

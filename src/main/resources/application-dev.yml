@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:sqlserver://localhost:1433;database=HX_master;encrypt=true;trustServerCertificate=true;
+    url: jdbc:sqlserver://localhost:1433;database=HX;encrypt=true;trustServerCertificate=true;
     username: sa
     password: root
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver

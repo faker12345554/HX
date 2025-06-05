@@ -1,16 +1,20 @@
 package com.hx.hx.model.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.util.List;
 import java.util.Map;
 
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class FormDetailDto {
     private String formDataCode;
     private String formCode;
     private String formSubTypeBizCode;
     private String formSubTypeName;
+    private String preNature;
 
     private String preConsumeName;
     private String applicantEmployeeName;
@@ -33,12 +37,10 @@ public class FormDetailDto {
     private Object amount;
     private Long firstSubmittedAt;
     private String formStatus;
-
     private Long approvedAt;
-
     private Object approvedAmount;
     private Long createdAt;
-
+    private String acceptCcy;
     private List<Object> applicationExpense;
     private List<Object> validationResult;
     private Object customObject;
@@ -58,20 +60,18 @@ public class FormDetailDto {
     private String externalVoucherCodes;
     private String externalVoucherStatus;
     private Integer exportStatus;
-
     private List<Object> tagList;
-
     private Object travelPartnerInfo;
     private String requestDepartmentBizCode;
     private String requestDepartmentName;
     private List<String> associatedFormCodes;
     private List<Object> associatedForms;
     private List<Object> associatedExternalFormList;
-
     private Object reportPosition;
     private Object creditScore;
     private Object creditRank;
     private Object headCount;
+    private String baseCcy;
 
 
 }

@@ -1,5 +1,6 @@
 package com.hx.hx.scheduled;
 
+import cn.hutool.core.date.DateTime;
 import com.alibaba.fastjson.JSONObject;
 import com.hx.hx.model.dao.FormDetail;
 import com.hx.hx.model.dao.FormDetailDto;
@@ -33,17 +34,18 @@ public class HoupuScheduled {
     private String chuChai;
     @Value("${my.property.status}")
     private String status;
+
     // 每天23:00:00（晚上11点）执行
     @Scheduled(fixedRateString = "86400000")
     public void task1() {
+        System.out.println(TimestampExample.getYesterday());
         JSONObject params = new JSONObject();
-        params.put("createdAtStart", TimestampExample.getYesterday());
-        params.put("createdAtEnd",  System.currentTimeMillis());
-        params.put("approvedAtStart", TimestampExample.getYesterday());
+//        params.put("createdAtStart", TimestampExample.getYesterday());
+//        params.put("createdAtEnd",  System.currentTimeMillis());
+        params.put("approvedAtStart",  TimestampExample.getYesterday());
         params.put("approvedAtEnd",  System.currentTimeMillis());
         params.put("formSubTypeBizCode",  chuChai);
         params.put("formStatus",status);
-
         List<FormDetail> list = maycurAuthService.getList(params);
         for (FormDetail dto : list) {
             FormDetailDto formDetailDto = maycurAuthService.getFormDetail(dto.getFormCode());
@@ -55,9 +57,9 @@ public class HoupuScheduled {
     @Scheduled(fixedRateString = "86400000",initialDelay = 60000)
     public void task2() {
         JSONObject params = new JSONObject();
-        params.put("createdAtStart", TimestampExample.getYesterday());
-        params.put("createdAtEnd",  System.currentTimeMillis());
-        params.put("approvedAtStart", TimestampExample.getYesterday());
+//        params.put("createdAtStart", TimestampExample.getYesterday());
+//        params.put("createdAtEnd",  System.currentTimeMillis());
+        params.put("approvedAtStart",  TimestampExample.getYesterday());
         params.put("approvedAtEnd",  System.currentTimeMillis());
         params.put("formSubTypeBizCode",  goOut);
         params.put("formStatus",status);

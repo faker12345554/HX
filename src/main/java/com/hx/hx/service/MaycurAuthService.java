@@ -84,7 +84,7 @@ public class MaycurAuthService {
         }
 
         entCode=response.getBody().getJSONObject("data").getString("entCode");
-        token=response.getBody().getJSONObject("data").getString("tokenId");
+         token=response.getBody().getJSONObject("data").getString("tokenId");
         return response.getBody().getJSONObject("data").getString("tokenId");
     }
 
