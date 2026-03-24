@@ -39,7 +39,7 @@ my:
     appCode: AP4LJXVJN6HNQI
     appSecret: KwRKkScwOfosKEfiR9XMmTyKfKhF0KoK
     #外出
-    goOut: FT2007211FF6XVK02
+    goOut: FT2007211FF6XVK0
     #出差
     chuChai: FT200612261VEK5C
     status: COMPLETED

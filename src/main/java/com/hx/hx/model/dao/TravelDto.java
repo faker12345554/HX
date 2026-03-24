@@ -3,6 +3,8 @@ package com.hx.hx.model.dao;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -16,7 +18,7 @@ public class TravelDto {
     private timeDto travelTime;
     private String tripWay;
     private double travelDays;
-    private Object travelPartnerInfo;
+    private LinkedHashMap<String, ArrayList<Object>> travelPartnerInfo;
     private Object customObject;
     private Integer travelTimeOffset;
 

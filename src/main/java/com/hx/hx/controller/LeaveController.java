@@ -64,13 +64,13 @@ public class LeaveController {
 //            params.put("createdAtEnd",  endTimeStamp);
             params.put("approvedAtStart",  startTimeStamp);
             params.put("approvedAtEnd",  endTimeStamp);
-            params.put("formSubTypeBizCode",  chuChai);
+            //params.put("formSubTypeBizCode",  chuChai);
             params.put("formStatus",status);
             List<FormDetail> list = maycurAuthService.getList(params);
             for (FormDetail dto : list) {
                 FormDetailDto formDetailDto = maycurAuthService.getFormDetail(dto.getFormCode());
-                Leave leave=maycurAuthService.saveLeave(formDetailDto);
-                log.info("插入出差申请单成功"+leave.getId());
+                int i=maycurAuthService.saveLeave(formDetailDto);
+                log.info("插入出差申请单成功");
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -90,17 +90,22 @@ public class LeaveController {
 //            params.put("createdAtEnd",  endTimeStamp);
             params.put("approvedAtStart",  startTimeStamp);
             params.put("approvedAtEnd",  endTimeStamp);
-            params.put("formSubTypeBizCode",  goOut);
+           // params.put("formSubTypeBizCode",  goOut);
             params.put("formStatus",status);
             List<FormDetail> list = maycurAuthService.getList(params);
             for (FormDetail dto : list) {
                 FormDetailDto formDetailDto = maycurAuthService.getFormDetail(dto.getFormCode());
-                Leave leave=maycurAuthService.saveLeave(formDetailDto);
-                log.info("插入外出申请单成功"+leave.getId());
+               int i=maycurAuthService.saveLeave(formDetailDto);
+                log.info("插入外出申请单成功");
             }
         }catch (Exception e){
             e.printStackTrace();
         }
-
+    }
+    @Operation(summary = "获取指定的外出单", description = "获取指定的外出单")
+    @PostMapping("/getOne")
+    public int getOne(@RequestParam String formCode){
+        FormDetailDto formDetailDto = maycurAuthService.getFormDetail(formCode);
+        return maycurAuthService.saveLeave(formDetailDto);
     }
 }
